@@ -51,13 +51,71 @@
 		</dependency>
 	</dependencies>
 
+  <profiles>
+	<profile>
+	<id>sonar</id>
+	<activation>
+	<!-- <activeByDefault>true</activeByDefault> -->
+	</activation>
+	<properties>
+	<!-- Optional URL to server. Default value is http://localhost:9000 -->
+	<sonar.host.url>
+	http://localhost:9000
+	</sonar.host.url>
+	</properties>
+	</profile>
+	
+	 <profile>
+            <id>dev</id>
+            <activation>
+                <!-- this profile is active by default -->
+                <activeByDefault>true</activeByDefault>
+                <!-- activate if system properties 'env=dev' -->
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <db.driverClassName>com.mysql.jdbc.Driver</db.driverClassName>
+                <db.url>jdbc:mysql://localhost:3306/dev</db.url>
+                <db.username>root</db.username>
+                <db.password>8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92</db.password>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <activation>
+                <!-- activate if system properties 'env=prod' -->
+                <property>
+                    <name>env</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <properties>
+                <db.driverClassName>oracle.jdbc.driver.OracleDriver</db.driverClassName>
+                <db.url>jdbc:oracle:thin:@localhost:1521:XE</db.url>
+                <db.username>system</db.username>
+                <db.password>vignesh</db.password>
+            </properties>
+        </profile>
+	
+</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			 <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.4.0.905</version>
+            </plugin>
 		</plugins>
+		
 	</build>
 
 </project>
